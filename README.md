@@ -1,6 +1,7 @@
-# limelight README
+# limelight
 
-This is the README for your extension "limelight". After writing up a brief description, we recommend including the following sections.
+Limelight is a VSCode extension that helps to focus on a specific part of the code and puts the rest
+in the backgrounnd.
 
 ## Features
 
