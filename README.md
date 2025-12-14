@@ -8,10 +8,10 @@ in the backgrounnd.
 Focus on the code you want to see and nothing else.
 
 - Block Focus
-![Block Focus](./resources/block.png)
+![Block Focus](resources/block.png)
 
 - Custom Selection Focus
-![Custom Selection Focus](./resources/selection.png)
+![Custom Selection Focus](resources/selection.png)
 
 
 ## Extension Settings

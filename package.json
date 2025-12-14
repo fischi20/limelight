@@ -82,6 +82,15 @@
       }
     }
   },
+  "license": "MIT",
+  "author": {
+    "name": "Fischnaller Daniel",
+    "url": "https://github.com/fischi20"
+  },
+  "repository": {
+    "url": "https://github.com/fischi20/limelight",
+    "type": "git"
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
