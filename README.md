@@ -13,6 +13,9 @@ Focus on the code you want to see and nothing else.
 - Custom Selection Focus
 ![Custom Selection Focus](resources/selection.png)
 
+## Installation
+- VSCode Makretplace: https://marketplace.visualstudio.com/items?itemName=fischi20.limelight-focus
+
 ## Default Key Bindings
 - `Ctrl+Alt+W` if there is a selection, highlight that selection, otherwhise highlight the block where the cursor is in
 - escape Drop the selection
