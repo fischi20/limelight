@@ -37,8 +37,6 @@ async function setContextFocus(value: boolean) {
 	await vscode.commands.executeCommand("setContext", "limelight.isActive", value);
 }
 
-
-
 const focusedEditors = new Map<string, vscode.Range>();
 
 const applyFocus = async (editor: vscode.TextEditor) => {
@@ -46,16 +44,19 @@ const applyFocus = async (editor: vscode.TextEditor) => {
 		setContextFocus(true);
 		const range = focusedEditors.get(editor.document.uri.toString())!;
 
-		const startOfFile = new vscode.Range(
-			0, 0,
-			Math.max(0, range.start.line - 1),
-			range.start.character
-		);
+		let startOfFile: vscode.Range | undefined = undefined;
+		if (range.start.line !== 0) {
+			startOfFile = new vscode.Range(
+				0, 0,
+				Math.max(0, range.start.line - 1),
+				range.start.character
+			);
+		}
+
 		let endOfFile: vscode.Range | undefined;
-		if (range.end.line + 1 >= editor.document.lineCount) {
-		} else {
+		if (range.end.line + 1 < editor.document.lineCount) {
 			endOfFile = new vscode.Range(
-				Math.min(editor.document.lineCount, range.end.line + 1),
+				Math.min(editor.document.lineCount + 1, range.end.line + 1),
 				range.end.character,
 				editor.document.lineCount,
 				0
@@ -92,8 +93,6 @@ export function activate(context: vscode.ExtensionContext) {
 			setContextFocus(false);
 		}
 	});
-
-
 
 	vscode.workspace.onDidChangeConfiguration(e => {
 		if (e.affectsConfiguration('limelight')) {
@@ -147,6 +146,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const symbols = await vscode.commands.executeCommand<vscode.DocumentSymbol[]>("vscode.executeDocumentSymbolProvider", editor.document.uri);
 			if (!symbols) {
 				vscode.window.showInformationMessage("No language symbols found. Is the language supported?");
+				resetEditorFocus(editor);
 				return;
 			}
 
@@ -154,8 +154,16 @@ export function activate(context: vscode.ExtensionContext) {
 			const targetSymbol = getDeepestSymbol(symbols, cursorPosition);
 
 			if (targetSymbol) {
+				const existingRange = focusedEditors.get(editor.document.uri.toString())
 				const range = targetSymbol.range;
+
+				if (existingRange?.isEqual(range)) {
+					resetEditorFocus(editor);
+					return;
+				}
+
 				focusedEditors.set(editor.document.uri.toString(), range);
+
 
 				await applyFocus(editor);
 			}
@@ -190,14 +198,18 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
+		const existingRange = focusedEditors.get(editor.document.uri.toString());
+		const selection = editor.selection;
+		const range = selection.isEmpty ? undefined : new vscode.Range(selection.start, selection.end);
+
 		if (focusedEditors.has(editor.document.uri.toString())) {
 			resetEditorFocus(editor);
+			if (!range || existingRange?.isEqual(range)) {
+				return;
+			}
 		}
 
-		const selection = editor.selection;
-		if (!selection.isEmpty) {
-			const range = new vscode.Range(selection.start, selection.end);
-
+		if (range) {
 			focusedEditors.set(editor.document.uri.toString(), range);
 			await applyFocus(editor);
 		}
