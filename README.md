@@ -28,12 +28,3 @@ Focus on the code you want to see and nothing else.
 - `limelight.persistOnTabSwitch` (default: true): Whether to persist the limelight effect when switching to other files/tabs
 
 
-## Release Notes
-
-### 0.0.1
-
-Initial release of the Limelight extension.
-    - Block Focus
-    - Selection Focus
-
----
