@@ -2,7 +2,7 @@
   "name": "limelight-focus",
   "displayName": "Limelight Focus",
   "description": "Put your currently focused code on a limelight",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.107.0"
   },
@@ -12,7 +12,6 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
-
     "commands": [
       {
         "command": "limelight.toggleBlockFocus",
@@ -59,7 +58,7 @@
       "title": "Limelight Configuration",
       "properties": {
         "limelight.opacity": {
-          "type":"number",
+          "type": "number",
           "default": 0.1,
           "description": "Opacity of the dimmed code",
           "minimum": 0,
