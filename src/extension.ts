@@ -154,7 +154,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const targetSymbol = getDeepestSymbol(symbols, cursorPosition);
 
 			if (targetSymbol) {
-				const existingRange = focusedEditors.get(editor.document.uri.toString())
+				const existingRange = focusedEditors.get(editor.document.uri.toString());
 				const range = targetSymbol.range;
 
 				if (existingRange?.isEqual(range)) {
